@@ -1,5 +1,2 @@
-const Task = () => {
-    return <div>Editar task</div>;
-};
-
-export default Task;
+import NewTask from "@/app/tasks/new/page";
+export default NewTask;
