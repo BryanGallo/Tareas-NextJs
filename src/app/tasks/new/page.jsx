@@ -1,8 +1,23 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-const NewTask = () => {
+const NewTask = ({ params }) => {
+    const { id } = params;
+    console.log(id);
     const router = useRouter();
+
+    useEffect(() => {
+        if (params) {
+            const fetchTasks = async () => {
+                const res = await fetch(`/api/tasks/${id}`);
+                const data = await res.json();
+                console.log(data);
+            };
+
+            fetchTasks();
+        }
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
