@@ -11,6 +11,7 @@ const TaskCard = ({ task }) => {
         >
             <h3>{task.titulo}</h3>
             <p>{task.description}</p>
+            <p>{new Date(task.createdAt).toLocaleDateString()}</p>
         </div>
     );
 };
