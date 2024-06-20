@@ -6,19 +6,18 @@ const NewTask = ({ params }) => {
     const [id, setId] = useState();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const { id: idTask } = params;
     console.log(id);
     const router = useRouter();
 
     useEffect(() => {
-        if (params) {
+        if (params.id) {
             const fetchTasks = async () => {
-                const res = await fetch(`/api/tasks/${idTask}`);
+                const res = await fetch(`/api/tasks/${params.id}`);
                 const data = await res.json();
                 if (data) {
                     console.log(data);
                     setId(data.id);
-                    setTitle(data.titulo);
+                    setTitle(data.title);
                     setDescription(data.description);
                     return;
                 } else {
@@ -31,20 +30,34 @@ const NewTask = ({ params }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Enviar Formulario");
         if ([title, description].includes("")) {
             return alert("Todos los campos son obligatorios");
         }
-
-        const res = await fetch("/api/tasks", {
-            method: "POST",
-            body: JSON.stringify({ title, description }),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        const data = await res.json();
-        console.log(data);
+        if (params.id) {
+            console.log(params.id);
+            console.log('entre');
+            const res = await fetch(`/api/tasks/${params.id}`, {
+                method: "PUT",
+                body: JSON.stringify({ title, description }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            console.log(res);
+            const data = await res.json();
+            console.log(data);
+        } else {
+            const res = await fetch("/api/tasks", {
+                method: "POST",
+                body: JSON.stringify({ title, description }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            const data = await res.json();
+            console.log(data);
+        }
+        router.refresh();
         router.push(`/`);
     };
 

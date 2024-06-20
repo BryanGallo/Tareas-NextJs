@@ -9,7 +9,7 @@ const TaskCard = ({ task }) => {
                 router.push(`/tasks/edit/${task.id}`);
             }}
         >
-            <h3>{task.titulo}</h3>
+            <h3>{task.title}</h3>
             <p>{task.description}</p>
             <p>{new Date(task.createdAt).toLocaleDateString()}</p>
         </div>
