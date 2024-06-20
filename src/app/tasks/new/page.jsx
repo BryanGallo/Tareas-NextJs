@@ -1,20 +1,30 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const NewTask = ({ params }) => {
-    const { id } = params;
+    const [id, setId] = useState();
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const { id: idTask } = params;
     console.log(id);
     const router = useRouter();
 
     useEffect(() => {
         if (params) {
             const fetchTasks = async () => {
-                const res = await fetch(`/api/tasks/${id}`);
+                const res = await fetch(`/api/tasks/${idTask}`);
                 const data = await res.json();
-                console.log(data);
+                if (data) {
+                    console.log(data);
+                    setId(data.id);
+                    setTitle(data.titulo);
+                    setDescription(data.description);
+                    return;
+                } else {
+                    router.push(`/`);
+                }
             };
-
             fetchTasks();
         }
     }, []);
@@ -22,8 +32,9 @@ const NewTask = ({ params }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Enviar Formulario");
-        const title = e.target.title.value;
-        const description = e.target.description.value;
+        if ([title, description].includes("")) {
+            return alert("Todos los campos son obligatorios");
+        }
 
         const res = await fetch("/api/tasks", {
             method: "POST",
@@ -54,6 +65,7 @@ const NewTask = ({ params }) => {
                     type="text"
                     placeholder="Titulo Tarea"
                     className=" w-full mb-4 p-2 rounded-lg"
+                    value={title}
                     onChange={(e) => setTitle(e.target.value)}
                 />
                 <label htmlFor="description" className="text-white font-bold">
@@ -64,13 +76,14 @@ const NewTask = ({ params }) => {
                     placeholder="Descripcion"
                     rows="3"
                     className="p-2 w-full mx-auto rounded-lg"
+                    value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
                 <button
                     type="submit"
                     className="p-2 rounded-lg bg-white hover:bg-blue-400 hover:text-white mt-2"
                 >
-                    Crear Tarea
+                    {id ? "Editar Tarea" : "Crear Tarea"}
                 </button>
             </form>
         </div>
