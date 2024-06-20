@@ -11,7 +11,7 @@ export async function POST(request) {
     console.log(title, description);
     await prisma.task.create({
         data: {
-            titulo: title,
+            title: title,
             description: description,
         },
     });
