@@ -6,7 +6,6 @@ const NewTask = ({ params }) => {
     const [id, setId] = useState();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    console.log(id);
     const router = useRouter();
 
     useEffect(() => {
@@ -34,8 +33,6 @@ const NewTask = ({ params }) => {
             return alert("Todos los campos son obligatorios");
         }
         if (params.id) {
-            console.log(params.id);
-            console.log('entre');
             const res = await fetch(`/api/tasks/${params.id}`, {
                 method: "PUT",
                 body: JSON.stringify({ title, description }),
@@ -43,7 +40,6 @@ const NewTask = ({ params }) => {
                     "Content-Type": "application/json",
                 },
             });
-            console.log(res);
             const data = await res.json();
             console.log(data);
         } else {
@@ -57,8 +53,8 @@ const NewTask = ({ params }) => {
             const data = await res.json();
             console.log(data);
         }
-        router.refresh();
         router.push(`/`);
+        router.refresh();
     };
 
     return (
