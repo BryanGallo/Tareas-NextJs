@@ -72,10 +72,10 @@ const NewTask = ({ params }) => {
     };
 
     return (
-        <div className="container h-screen flex justify-center mx-auto items-center">
+        <div className="container h-[calc(100vh-7rem)] flex justify-center mx-auto items-center">
             <form
                 onSubmit={handleSubmit}
-                className="bg-slate-700 p-10 text-gray-950 w-2/4"
+                className="bg-slate-700 p-10 text-gray-950 w-2/4 rounded-md"
             >
                 <h2 className="text-3xl text-center mb-4 font-bold text-white ">
                     Add Task
@@ -111,7 +111,8 @@ const NewTask = ({ params }) => {
                     </button>
                     {id && (
                         <button
-                            type="button" className="p-2 rounded-lg bg-red-300 hover:bg-red-500 hover:text-white mt-2"
+                            type="button"
+                            className="p-2 rounded-lg bg-red-300 hover:bg-red-500 hover:text-white mt-2"
                             onClick={deleteTask}
                         >
                             Eliminar Tarea

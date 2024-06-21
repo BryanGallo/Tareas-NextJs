@@ -17,7 +17,8 @@ export default async function Home() {
     console.log(tasks);
     return (
         <main className="container mx-auto">
-            <h1 className="text-center">Tareas</h1>
+            <h1 className="text-center font-bold text-2xl">Tareas</h1>
+            
             <section className="grid grid-cols-3 gap-3">
                 {tasks.map((task) => (
                     <TaskCard key={task.id} task={task} />
