@@ -57,6 +57,20 @@ const NewTask = ({ params }) => {
         router.refresh();
     };
 
+    const deleteTask = async () => {
+        const confirmDelete = confirm(
+            "Esta seguro de que desea eliminar la Tarea"
+        );
+        if (!confirmDelete) return;
+        const res = await fetch(`/api/tasks/${params.id}`, {
+            method: "DELETE",
+        });
+        const data = await res.json();
+        console.log(data);
+        router.push(`/`);
+        router.refresh();
+    };
+
     return (
         <div className="container h-screen flex justify-center mx-auto items-center">
             <form
@@ -88,12 +102,22 @@ const NewTask = ({ params }) => {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
-                <button
-                    type="submit"
-                    className="p-2 rounded-lg bg-white hover:bg-blue-400 hover:text-white mt-2"
-                >
-                    {id ? "Editar Tarea" : "Crear Tarea"}
-                </button>
+                <div className="flex justify-center gap-3">
+                    <button
+                        type="submit"
+                        className="p-2 rounded-lg bg-blue-300 hover:bg-blue-500 hover:text-white mt-2"
+                    >
+                        {id ? "Editar Tarea" : "Crear Tarea"}
+                    </button>
+                    {id && (
+                        <button
+                            type="button" className="p-2 rounded-lg bg-red-300 hover:bg-red-500 hover:text-white mt-2"
+                            onClick={deleteTask}
+                        >
+                            Eliminar Tarea
+                        </button>
+                    )}
+                </div>
             </form>
         </div>
     );
